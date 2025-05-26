@@ -1,29 +1,20 @@
-function addReadMore(selector, wordLimit = 20) {
-    const elements = document.querySelectorAll(".selector");
+let p = document.querySelector('.selector');
+let textCount = p.innerText;
+let words = textCount.split(" ");
 
-    elements.forEach(el => {
-        const words = el.textContent.trim().split(/\s+/);
-        if (words.length > wordLimit) {
-            const visibleText = words.slice(0, wordLimit).join(' ');
-            const hiddenText = words.slice(wordLimit).join(' ');
-            el.innerHTML = `
-                ${visibleText}
-                <span class="read-more-ellipsis">... </span>
-                <span class="read-more-hidden" style="display:none;">${hiddenText}</span>
-                <a href="#" class="read-more-link">Read more</a>
-            `;
+let wordCount = words.length;
 
-            el.querySelector('.read-more-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                el.querySelector('.read-more-hidden').style.display = 'inline';
-                el.querySelector('.read-more-ellipsis').style.display = 'none';
-                this.style.display = 'none';
-            });
-        }
+if (wordCount >20){
+    let first20Words = words.slice(0, 20).join(" ");
+    let remainingWords = words.slice(20).join(" ");
+    console.log(first20Words);
+
+    console.log(remainingWords);
+
+    p.innerHTML = `${first20Words}... <a href="#" class="read-more">Read more</a>`;
+
+    document.querySelector('.read-more').addEventListener('click', function(event) {
+        event.preventDefault();
+        p.innerText = textCount;
     });
 }
-
-// Usage example: addReadMore to all elements with class 'readmore'
-document.addEventListener('DOMContentLoaded', function() {
-    addReadMore('.readmore', 20);
-});
