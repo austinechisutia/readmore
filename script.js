@@ -1,20 +1,26 @@
-let p = document.querySelector('.selector');
-let textCount = p.innerText;
-let words = textCount.split(" ");
+let words = document.querySelector(".selector");
+let totalWords = words.innerText;
+let wordCount = totalWords.split(' ');
 
-let wordCount = words.length;
+if(wordCount.length>20){
+    let seenWords = wordCount.splice(0, 20).join(" ");
+    console.log(seenWords)
+    let restWords = wordCount.splice(20).join(" ")
+    console.log(restWords)
 
-if (wordCount >20){
-    let first20Words = words.slice(0, 20).join(" ");
-    let remainingWords = words.slice(20).join(" ");
-    console.log(first20Words);
+    function showSmallText(){
+        words.innerHTML = `${seenWords}... <a href="#" class="readmore">Read more</a>`;
+    document.querySelector(".readmore").addEventListener("hover", showFullText);
+    }
 
-    console.log(remainingWords);
+    function showFullText(e){
+        e.preventDefault();
+        words.innerText = totalWords;
 
-    p.innerHTML = `${first20Words}... <a href="#" class="read-more">Read more</a>`;
+    }
+    showSmallText();
 
-    document.querySelector('.read-more').addEventListener('click', function(event) {
-        event.preventDefault();
-        p.innerText = textCount;
-    });
+    words.addEventListener("mouseleave", function(){
+        showSmallText
+    })
 }
